@@ -1,0 +1,103 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
+  <title>HomeClick Demo GUI</title>
+  <link rel="stylesheet" href="css/gui.css">
+  <link rel="stylesheet" href=" //maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="css/materialize.min.css">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="js/jquery-3.1.1.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="js/materialize.min.js"></script>
+<!--   // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> -->
+  <script src="js/socket.io.min.js"> </script>
+
+  <script type="text/javascript" charset="utf-8">
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect', function() {
+        socket.emit('my event', {data: 'I\'m connected!'});
+    });
+    socket.on('message', function(data) {
+      var icono;
+      switch(data.icon) {
+        case 'luz':
+        case 'luz-on':
+        case 'luz-off':
+          icono = '<i class="fa fa-lightbulb-o fa-2x"></i><br>';
+          break;
+        default:
+          icono = '';
+      }
+      console.log(data.icon);
+      target = '#id-' + data.target;
+      $( "#notification" ).html(icono + data.message);
+      breakGlass('reverse');
+      $(target).html(data.status);
+      $("#icono").attr("src", "img/" + data.icon + ".png");
+      setTimeout(function(){$("#notification").html("");breakGlass()}, 3500);
+    });
+    socket.on('rgb', function(data) {
+      $( "#notification" ).html("" + data.message);
+      breakGlass('reverse');
+      setTimeout(function(){$("#notification").html("");breakGlass()}, 3500);
+    });
+  </script>
+</head>
+
+<body>
+  <div id="gradient">
+    <div class="container">
+      <div class="row">
+          <br>
+        <div class="col s3">
+          <div class="card-panel center-align">
+            <a href="//hotelmix.es/weather/queretaro-18196"><img src="//w.bookcdn.com/weather/picture/28_18196_1_4_ffffff_250_bdc3c7_9da2a6_ffffff_1_2071c9_ffffff_0_3.png?scode=124&domid=w209" /></a><!-- weather widget end -->
+          <!-- 1_4_<fondo>_250_<titulo-bk>_<temp>_<titulo>_1_<???>_<???> -->
+          </div>
+        </div>
+        <div class="col s9">
+          <div class="card-panel center-align">
+            <img src="img/homeclick-logo.png">
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+
+        {% for pin in pins %}
+        <div class="col s4">
+          <div class="card horizontal">
+            <div class="card-image">
+              <img class="foco" src="http://lorempixel.com/100/190/nature/6">
+            </div>
+            <div class="card-stacked">
+              <div class="card-content">
+                <h5>{{ pins[pin].name }}</h5>
+              </div>
+              <div class="card-action">
+                <a id = "id-{{pin}}" href="#">{{pins[pin].status}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+      
+    </div>
+
+    <div id="popup">
+      <!-- <img id="icono" src="img/luz.png"> -->
+      <h1 id="notification"></h1>
+    </div>
+  </div>  
+
+  <script src="js/gradient.js"></script>
+  <script src="js/TweenLite.min.js"></script>
+  <script src="js/CSSPlugin.min.js"></script>
+  <script src="js/glass.js"></script>
+</body>
+</html>

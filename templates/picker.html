@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+  <script src="js/jquery-3.1.1.min.js"></script>
+  <!-- Color Picker https://github.com/bgrins/spectrum -->
+  <script src="js/spectrum.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/spectrum.min.css">
+</head>
+
+<body>
+
+  <input type="text" id="colorpicker" />
+  <script>
+    $("#colorpicker").spectrum({
+      color: "#20b0bf",
+      flat: true,
+      preferredFormat: "rgb",
+      showInput: true,
+      change: function(color) {
+        var red = Math.round(color._r);
+        var green = Math.round(color._g);
+        var blue = Math.round(color._b);
+        $.ajax({
+          url: "rest/rgb/" + red + "/" + green + "/" + blue,
+          context: document.body
+        }).done(function() {
+          $( this ).addClass( "done" );
+        });
+      }
+    });
+  </script>
+</body>
+</html>
