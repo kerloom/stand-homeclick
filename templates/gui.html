@@ -17,28 +17,35 @@
 
   <script type="text/javascript" charset="utf-8">
     var socket = io.connect('http://' + document.domain + ':' + location.port);
+
     socket.on('connect', function() {
         socket.emit('my event', {data: 'I\'m connected!'});
     });
+
     socket.on('message', function(data) {
       var icono;
       switch(data.icon) {
         case 'luz':
         case 'luz-on':
         case 'luz-off':
-          icono = '<i class="fa fa-lightbulb-o fa-2x"></i><br>';
+          icono = '<i class="fa fa-refresh fa-2x"></i><br>';
           break;
         default:
-          icono = '';
+          icono = '<i class="fa fa-refresh fa-2x"></i><br>';
       }
-      console.log(data.icon);
+      
       target = '#id-' + data.target;
+      targetImage = '#img-' + data.target;
+
       $( "#notification" ).html(icono + data.message);
-      breakGlass('reverse');
+
       $(target).html(data.status);
-      $("#icono").attr("src", "img/" + data.icon + ".png");
+      $(targetImage).attr("src", "img/" + data.icon + ".png");
+
+      breakGlass('reverse');
       setTimeout(function(){$("#notification").html("");breakGlass()}, 3500);
     });
+
     socket.on('rgb', function(data) {
       $( "#notification" ).html("" + data.message);
       breakGlass('reverse');
@@ -71,14 +78,14 @@
         <div class="col s4">
           <div class="card horizontal">
             <div class="card-image">
-              <img class="foco" src="http://lorempixel.com/100/190/nature/6">
+              <img id = "img-{{pin}}" src="img/{{pins[pin].icon}}-off.png">
             </div>
             <div class="card-stacked">
-              <div class="card-content">
-                <h5>{{ pins[pin].name }}</h5>
+              <div class="card-content valign-wrapper">
+                <h3>     {{pins[pin].name}}</h3>
               </div>
               <div class="card-action">
-                <a id = "id-{{pin}}" href="#">{{pins[pin].status}}</a>
+                <h5 id ="id-{{pin}}" style="color:#20b0bf"><strong>{{pins[pin].status}}</strong></h5>
               </div>
             </div>
           </div>

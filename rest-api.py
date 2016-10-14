@@ -14,16 +14,16 @@ pi = pigpio.pi()
 
 pins = {
     23: {'name': 'Dimmer', 'state': 0, 'type': 'pwm', 'status': 'Apagado',
-         'icon': 'luz', 'status-off': 'Apagado', 'status-on': 'Encendido',
+         'icon': 'luz', 'status-off': 'APAGADO', 'status-on': 'ENCENDIDO',
          'msg-on': u'Se encendió el dimmer', 'msg-off': u'Se apagó el dimmer'},
     10: {'name': 'Fuente', 'state': 0, 'type': 'on-off', 'status': 'Apagada',
-         'icon': 'none', 'status-off': 'Apagada', 'status-on': 'Encendida',
+         'icon': 'fuente', 'status-off': 'APAGADA', 'status-on': 'ENCENDIDA',
          'msg-on': u'Se encendió la fuente', 'msg-off': u'Se apagó la fuente'},
     9: {'name': 'Ventilador', 'state': 0, 'type': 'on-off', 'status': 'Apagado',
-        'icon': 'luz', 'status-off': 'Apagado', 'status-on': 'Encendido',
+        'icon': 'ventilador', 'status-off': 'APAGADO', 'status-on': 'ENCENDIDO',
         'msg-on': u'Se encendió el ventilador', 'msg-off': u'Se apagó el ventilador'},
     11: {'name': 'Puerta', 'state': 0, 'type': 'on-off', 'status': 'Cerrada',
-         'icon': 'none', 'status-off': 'Cerrada', 'status-on': 'Abierta',
+         'icon': 'puerta', 'status-off': 'CERRADA', 'status-on': 'ABIERTA',
          'msg-on': u'Se abrió la puerta', 'msg-off': u'Se cerró la puerta'}
 }
 
